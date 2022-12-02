@@ -1,0 +1,8 @@
+.vscode
+__pycache__
+.env
+finaldatasience-6c41d4305ac3.json
+workspace.code-workspace
+docker-compose.debug.yml
+flagged
+app.py
