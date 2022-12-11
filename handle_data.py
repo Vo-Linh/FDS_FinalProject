@@ -71,11 +71,10 @@ def nomalizeData(dataset, encoder, inference = False):
     x_transformed = encoder.transform(x)
     normalizer = preprocessing.Normalizer().fit(x_transformed)
     
-    
     if inference:
         return normalizer
 
-    return x_transformed, y
+    return normalizer.transform(x_transformed), y
 
 if __name__ == "__main__":
     from dotenv import dotenv_values
