@@ -1,4 +1,5 @@
 from sklearn.feature_selection import mutual_info_regression
+from sklearn import preprocessing
 from scipy import stats
 from category_encoders import MEstimateEncoder
 
@@ -62,20 +63,17 @@ def encodeData(dataset, columns = ['street','statezip','city', 'yr_built', 'yr_r
     
 
 def nomalizeData(dataset, encoder, inference = False):
+
     x = dataset.copy()
     if inference == False:
         y = x.pop('price') 
     
     x_transformed = encoder.transform(x)
-    means, maxs, mins = dict(), dict(), dict()
-    for col in x_transformed:
-        means[col] = x_transformed[col].mean()
-        maxs[col] = x_transformed[col].max()
-        mins[col] = x_transformed[col].min()
+    normalizer = preprocessing.Normalizer().fit(x_transformed)
     
-    x_transformed = (x_transformed - x_transformed.mean()) / (x_transformed.max() - x_transformed.min())
+    
     if inference:
-        return x_transformed.mean(), x_transformed.max(), x_transformed.min()
+        return normalizer
 
     return x_transformed, y
 

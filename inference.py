@@ -31,13 +31,12 @@ def predict(*args):
 
     x_transformed = encoder.transform(df)
     
-    # x_transformed_mean, x_transformed_max, x_transformed_min = nomalizeData(x_transformed, encoder, inference = True)
-    # print(f"==========\n {x_transformed_mean, x_transformed_max} \n========")
-    # x_transformed = (x_transformed - x_transformed_mean) / (x_transformed_max - x_transformed_min)
-    x_transformed = x_transformed.to_numpy()
+    normalizer = nomalizeData(x_transformed, encoder, inference = True)
+    x_transformed = normalizer.transform(x_transformed)
+
     try:
         pred = model.predict(x_transformed.reshape(1, -1))
     except:
         print("Error")
 
-    return str(float(pred[0]))
+    return abs(round(float(pred[0]), 2))
